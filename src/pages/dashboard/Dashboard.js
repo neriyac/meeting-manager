@@ -15,13 +15,13 @@ export default function Dashboard() {
     setFilter(newFilter)
   }
 
-  const filteredProjects = documents ? documents.filter((document) => {
+  const filteredProjects = documents ? documents.filter(document => {
     switch (filter) {
       case 'all':
         return true
       case 'mine':
         let assignedToMe = false
-        document.assignedUsersList.forEach((u) => {
+        document.assignedUsersList.forEach(u => {
           if (u.id === user.uid ) {
             assignedToMe = true
           }
@@ -43,9 +43,7 @@ export default function Dashboard() {
     <div>
       <h2 className="page-title">Dashboard</h2>
       {error && <p className="error">{error}</p> }
-      {documents && (
-        <ProjectFilter filter={filter} changeFilter={changeFilter}/>
-      )}
+      {documents && <ProjectFilter changeFilter={changeFilter} />}
       {filteredProjects && <ProjectList projects={filteredProjects}/>}
     </div>
   )
