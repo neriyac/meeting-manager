@@ -1,6 +1,6 @@
-const filterList = ['all', 'mine', 'development', 'design', 'marketing', 'sales']
+const filterList = ['all', 'development', 'design', 'marketing', 'sales']
 
-export default function ProjectFilter({ currentFilter, changeFilter }) {
+export default function ProjectFilter({ filter, changeFilter }) {
 
     const handleClick = (newFilter) => {
         changeFilter(newFilter)
@@ -14,7 +14,7 @@ return (
             <button
                 key={f}
                 onClick={() => handleClick(f)}
-                className={currentFilter === f ? 'active' : ''}
+                className={filter === f ? 'active' : ''}
             >
                 {f}
             </button>

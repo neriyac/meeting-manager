@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import ProjectList from '../../components/ProjectList'
 import { useCollection } from '../../hooks/useCollection'
 import { useAuthContext } from '../../hooks/useAuthContext'
+import ProjectList from '../../components/ProjectList'
 //styles
 import './Dashboard.css'
 import ProjectFilter from './ProjectFilter'
@@ -9,20 +9,20 @@ import ProjectFilter from './ProjectFilter'
 export default function Dashboard() {
   const { user } = useAuthContext()
   const { documents, error } = useCollection('projects')
-  const [currentFilter, setCurrentFilter] = useState('all')
+  const [filter, setFilter] = useState('all')
 
   const changeFilter = (newFilter) => {
-    setCurrentFilter(newFilter)
+    setFilter(newFilter)
   }
 
   const filteredProjects = documents ? documents.filter((document) => {
-    switch (currentFilter) {
+    switch (filter) {
       case 'all':
         return true
       case 'mine':
         let assignedToMe = false
         document.assignedUsersList.forEach((u) => {
-          if (user.uid === u.id ) {
+          if (u.id === user.uid ) {
             assignedToMe = true
           }
         })
@@ -31,8 +31,8 @@ export default function Dashboard() {
       case 'design':
       case 'marketing':
       case 'sales':
-        console.log(document.category, currentFilter);
-        return document.category === currentFilter
+        console.log(document.category, filter);
+        return document.category === filter
 
       default:
         return true;
@@ -44,7 +44,7 @@ export default function Dashboard() {
       <h2 className="page-title">Dashboard</h2>
       {error && <p className="error">{error}</p> }
       {documents && (
-        <ProjectFilter currentFilter={currentFilter} changeFilter={changeFilter}/>
+        <ProjectFilter filter={filter} changeFilter={changeFilter}/>
       )}
       {filteredProjects && <ProjectList projects={filteredProjects}/>}
     </div>
