@@ -87,10 +87,10 @@ export default function Create() {
 
   return (
     <div className='create-form'>
-      <h2 className="page-title">Create New Project</h2>
+      <h2 className="page-title">Create New Meeting</h2>
       <form onSubmit={handleSubmit}>
         <label>
-          <span>Project Name:</span>
+          <span>Meeting Name:*</span>
           <input
             required
             type="text"
@@ -99,16 +99,15 @@ export default function Create() {
           />
         </label>
         <label>
-          <span>Detailes:</span>
+          <span>Meeting Description (optional):</span>
           <textarea
-            required
             type="text"
             onChange={(e) => setDetails(e.target.value)}
             value={details}
           />
         </label>
         <label>
-          <span>Deadline:</span>
+          <span>Due date:*</span>
           <input
             required
             type="datetime-local"
@@ -117,7 +116,7 @@ export default function Create() {
           />
         </label>
         <label>
-          <span>Project category:</span>
+          <span>Meeting category:*</span>
           <Select
             placeholder="Select new category here..."
             onChange={(option) => setCategory(option)}
@@ -125,7 +124,7 @@ export default function Create() {
           />
         </label>
         <label>
-          <span>Project assignment:</span>
+          <span>Meeting assignment: (Min 1)</span>
           <Select
             onChange={(option) => setAssignedUsers(option) }
             options={users}

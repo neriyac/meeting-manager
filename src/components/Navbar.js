@@ -15,7 +15,7 @@ export default function Navbar() {
       <ul>
         <li className="logo">
           <Link to={"/"}><img src={Temple} alt="temple logo"/></Link>
-            <Link to={"/"}><span>Neryos Community</span></Link>
+            <Link to={"/"}><span>Manage your meetings</span></Link>
         </li>
         {!user && (
           <>
