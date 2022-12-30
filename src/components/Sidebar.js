@@ -6,7 +6,9 @@ import Avatar from "./Avatar";
 // styles & images
 import './Sidebar.css'
 import AddIcon from '../assets/add_icon.svg'
-import DashboardIcon from '../assets/dashboard_icon.svg'
+import MeetIcon from '../assets/meet_icon.svg'
+import StatsIcon from '../assets/stats_icon.svg'
+import ProjectsIcon from '../assets/wrench_icon.svg'
 
 export default function Sidebar() {
   const { user } = useAuthContext()
@@ -22,14 +24,26 @@ export default function Sidebar() {
             <ul>
                 <li>
                     <NavLink exact to="/">
-                        <img src={DashboardIcon} alt="dashboard icon" />
-                        <span>Dashboard</span>
+                        <img src={MeetIcon} alt="dashboard icon" />
+                        <span>Meetings</span>
                     </NavLink>
                 </li>
                 <li>
                     <NavLink to="/create">
                         <img src={AddIcon} alt="add project icon" />
                         <span>New Meeting</span>
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink to="/test">
+                        <img src={StatsIcon} alt="add project icon" />
+                        <span>Statistic</span>
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink to="/test">
+                        <img src={ProjectsIcon} alt="add project icon" />
+                        <span>Projects</span>
                     </NavLink>
                 </li>
             </ul>

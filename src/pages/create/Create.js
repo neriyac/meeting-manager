@@ -1,13 +1,14 @@
-import { useEffect, useState } from 'react'
 import Select from 'react-select'
+import Creatable from 'react-select/creatable';
+import { useEffect, useState } from 'react'
 import { timestamp } from '../../firebase/config'
 import { useCollection } from '../../hooks/useCollection'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useFirestore } from '../../hooks/useFirestore'
+import { useHistory } from 'react-router-dom'
 
 //styles
 import './Create.css'
-import { useHistory } from 'react-router-dom'
 
 const categories = [
   { value: 'development', label: 'Development' },
@@ -29,6 +30,7 @@ export default function Create() {
   const [dueDate, setDueDate] = useState('')
   const [category, setCategory] = useState('')
   const [assignedUsers, setAssignedUsers] = useState([])
+  const [topics, setTopics] = useState([])
   const [formError, setFormError] = useState(null)
 
   useEffect(() => {
@@ -68,14 +70,21 @@ export default function Create() {
       }
     })
 
+    // const topicList = topicList.map((t) => {
+    //   return{
+    //     topicList: t.value.topicList
+    //   }
+    // })
+
     const project = {
       name,
       details,
-      category: category.value,
+      category,
       dueDate: timestamp.fromDate(new Date(dueDate)),
       comments: [],
       createdBy,
-      assignedUsersList
+      assignedUsersList,
+      topics
     }
 
 
@@ -99,11 +108,27 @@ export default function Create() {
           />
         </label>
         <label>
+          <span>Meeting category:*</span>
+          <Select
+            placeholder="Select new category here..."
+            onChange={(option) => setCategory(option)}
+            options={categories}
+          />
+        </label>
+        <label>
           <span>Meeting Description (optional):</span>
           <textarea
             type="text"
             onChange={(e) => setDetails(e.target.value)}
             value={details}
+          />
+        </label>
+        <label>
+          <span>Topics: (Min 1)</span>
+          <Creatable
+            onChange={(e) => setTopics(e)}
+            options={topics}
+            isMulti
           />
         </label>
         <label>
@@ -113,14 +138,6 @@ export default function Create() {
             type="datetime-local"
             onChange={(e) => setDueDate(e.target.value)}
             value={dueDate}
-          />
-        </label>
-        <label>
-          <span>Meeting category:*</span>
-          <Select
-            placeholder="Select new category here..."
-            onChange={(option) => setCategory(option)}
-            options={categories}
           />
         </label>
         <label>

@@ -24,7 +24,8 @@ export default function ProjectSummary({ project }) {
             Project due by {project.dueDate.toDate().toDateString()}
         </p>
         <p className="details">{project.details}</p>
-        <h4>Project is assigned to:</h4>
+        {project.topics && <p className="topics">Meeting Topics:<br/>{project.topics}</p>}
+        <h4>Meeting Leader:</h4>
         <div className="assigned-users">
             {project.assignedUsersList.map(user => (
                 <div key={user.id}>
@@ -34,7 +35,7 @@ export default function ProjectSummary({ project }) {
         </div>
       </div>
               {user.uid === project.createdBy.id && (
-          <button className="btn" onClick={handleClick}>Mark as complete</button>
+          <button className="btn" onClick={handleClick}>Mark as complete & Delete</button>
         )}
     </div>
   )

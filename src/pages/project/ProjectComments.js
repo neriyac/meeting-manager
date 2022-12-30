@@ -52,14 +52,14 @@ export default function ProjectComments({ project }) {
 
       <form className="add-comment" onSubmit={handleSubmit}>
         <label>
-            <span>Add new comment:</span>
+            <span>Add new Note:</span>
             <textarea
                 required
                 onChange={(e) => setNewComment(e.target.value)}
                 value={newComment}
                 ></textarea>
         </label>
-        <button className="btn">Add comment</button>
+        <button className="btn">Add Note</button>
       </form>
     </div>
   )
