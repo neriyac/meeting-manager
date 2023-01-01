@@ -27,10 +27,10 @@ export default function Dashboard() {
           }
         })
         return assignedToMe
-      case 'development':
-      case 'design':
-      case 'marketing':
-      case 'sales':
+      case 'Weeked Meeting':
+      case 'Sunday Meeting':
+      case 'New Project':
+      case 'Other':
         console.log(document.category, filter);
         return document.category === filter
 
