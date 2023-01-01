@@ -26,11 +26,11 @@ export default function Create() {
 
   // form field values
   const [name, setName] = useState('')
-  const [details, setDetails] = useState('')
-  const [dueDate, setDueDate] = useState('')
   const [category, setCategory] = useState('')
-  const [assignedUsers, setAssignedUsers] = useState([])
+  const [details, setDetails] = useState('')
   const [topics, setTopics] = useState([])
+  const [dueDate, setDueDate] = useState('')
+  const [assignedUsers, setAssignedUsers] = useState([])
   const [formError, setFormError] = useState(null)
 
   useEffect(() => {
@@ -47,14 +47,26 @@ export default function Create() {
     e.preventDefault()
     setFormError(null)
 
+    if (!name) {
+      setFormError('Please type meeting name !')
+      return
+    }
     if (!category) {
-      setFormError('Please select a project category')
+      setFormError('Please choose meeting category !')
+      return
+    }
+    if (topics.length < 1) {
+      setFormError('Please type at least 1 Topic to your meeting !')
+      return
+    }
+    if (!dueDate) {
+      setFormError('Please select the date for you meeting !')
       return
     }
     if (assignedUsers.length < 1) {
-      setFormError('Please assign at least 1 user to your project')
+      setFormError('Please assign at least 1 Leader to your meeting !')
       return
-    }
+    } 
 
     const createdBy = {
       displayName: user.displayName,
@@ -70,11 +82,11 @@ export default function Create() {
       }
     })
 
-    // const topicList = topicList.map((t) => {
-    //   return{
-    //     topicList: t.value.topicList
-    //   }
-    // })
+    const topicList = topics.map((t) => {
+      return{
+        topicList: t.value.topicList
+      }
+    })
 
     const project = {
       name,
@@ -84,7 +96,7 @@ export default function Create() {
       comments: [],
       createdBy,
       assignedUsersList,
-      topics
+      topicList
     }
 
 
@@ -94,10 +106,18 @@ export default function Create() {
     }
   }
 
+  const startMeeting = async (e) => {
+    await handleSubmit(e)
+    if (!response.error) {
+      console.log('startmeeting');
+    }
+  }
+
+
   return (
     <div className='create-form'>
       <h2 className="page-title">Create New Meeting</h2>
-      <form onSubmit={handleSubmit}>
+      <form>
         <label>
           <span>Meeting Name:*</span>
           <input
@@ -132,7 +152,7 @@ export default function Create() {
           />
         </label>
         <label>
-          <span>Due date:*</span>
+          <span>Meeting Date:*</span>
           <input
             required
             type="datetime-local"
@@ -141,14 +161,15 @@ export default function Create() {
           />
         </label>
         <label>
-          <span>Meeting assignment: (Min 1)</span>
+          <span>Meeting Leader(s): (Min 1)</span>
           <Select
             onChange={(option) => setAssignedUsers(option) }
             options={users}
             isMulti
           />
         </label>
-        <button className="btn">Add Project</button>
+        <button onClick={handleSubmit} className="btn">Add Meeting</button>
+        <button onClick={startMeeting} className="btngreen">Start Meeting Now</button>
         {formError && <p className='error'>{formError}</p> }
       </form>
     </div>

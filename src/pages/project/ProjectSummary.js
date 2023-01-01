@@ -24,7 +24,7 @@ export default function ProjectSummary({ project }) {
             Project due by {project.dueDate.toDate().toDateString()}
         </p>
         <p className="details">{project.details}</p>
-        {project.topics && <p className="topics">Meeting Topics:<br/>{project.topics}</p>}
+        {project.topicList && <p className="topics">Meeting Topics:<br/>{project.topicList}</p>}
         <h4>Meeting Leader:</h4>
         <div className="assigned-users">
             {project.assignedUsersList.map(user => (

@@ -32,6 +32,7 @@ ul {
 }
 .btn {
   background: #fff;
+  margin: 1px;
   padding: 8px 12px;
   border-radius: 4px;
   color: var(--primary-color);

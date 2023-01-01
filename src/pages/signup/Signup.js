@@ -44,7 +44,7 @@ export default function Signup() {
   return (
     <div>
       <div className="title">
-        <h2>Welcome to Neryos Community !<br />Please Signup to reveale more.</h2>
+        <h2>Welcome to our Meeting Manager !<br />Please Signup to reveale more.</h2>
       </div>
       <p className='signup-link'>If you already have an account - <Link to="/login">Click here</Link> to Login</p>
       <form className='auth-form' onSubmit={handleSubmit}>

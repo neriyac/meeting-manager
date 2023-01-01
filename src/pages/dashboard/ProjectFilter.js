@@ -1,4 +1,4 @@
-const filterList = ['all', 'mine', 'development', 'design', 'marketing', 'sales']
+const filterList = ['all', 'mine', 'Weeked Meeting', 'Sunday Meeting', 'New Project', 'Other']
 
 export default function ProjectFilter({ filter, changeFilter }) {
 
@@ -10,14 +10,12 @@ return (
     <div className="project-filter">
       <nav>
         <p>Filter by:</p>
-        { filterList.map((f) => (
+        {filterList.map((f) => (
             <button
                 key={f}
                 onClick={() => handleClick(f)}
                 className={filter === f ? 'active' : ''}
-            >
-                {f}
-            </button>
+            >{f}</button>
         ))}
       </nav>
     </div>
