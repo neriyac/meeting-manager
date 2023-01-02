@@ -6,13 +6,17 @@ import { useFirestore } from '../../hooks/useFirestore'
 
 
 export default function ProjectSummary({ project }) {
-  const { deleteDocument} = useFirestore('projects')
+  const { deleteDocument} = useFirestore('meetings')
   const { user } = useAuthContext()
   const history = useHistory()
 
   const handleClick = (e) => {
     deleteDocument(project.id)
     history.push("/")
+  }
+
+  const StartMeeting = () => {
+    console.log('StartMeeting');
   }
   
   return (
@@ -21,10 +25,18 @@ export default function ProjectSummary({ project }) {
         <h2 className="page-title">{project.name}</h2>
         <p>Created by {project.createdBy.displayName}</p>
         <p className="due-date">
-            Project due by {project.dueDate.toDate().toDateString()}
+            Meeting start in {project.dueDate.toDate().toDateString()}
         </p>
         <p className="details">{project.details}</p>
-        {project.topicList && <p className="topics">Meeting Topics:<br/>{project.topicList}</p>}
+        <div className='topics'>
+        {project.topics && <h3>Topics:</h3>}
+        {!project.topics.map(topic => (
+            <div key={topic.value}>
+                <li>{topic.label}</li>
+              </div>
+          ))}
+
+        </div>
         <h4>Meeting Leader:</h4>
         <div className="assigned-users">
             {project.assignedUsersList.map(user => (
@@ -37,6 +49,7 @@ export default function ProjectSummary({ project }) {
               {user.uid === project.createdBy.id && (
           <button className="btn" onClick={handleClick}>Mark as complete & Delete</button>
         )}
+        <button className="btngreen" onClick={StartMeeting}>Start Meeting Now</button>
     </div>
   )
 }

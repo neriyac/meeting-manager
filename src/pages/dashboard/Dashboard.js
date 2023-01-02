@@ -8,7 +8,7 @@ import ProjectFilter from './ProjectFilter'
 
 export default function Dashboard() {
   const { user } = useAuthContext()
-  const { documents, error } = useCollection('projects')
+  const { documents, error } = useCollection('meetings')
   const [filter, setFilter] = useState('all')
 
   const changeFilter = (newFilter) => {

@@ -1,25 +1,32 @@
-import Select from 'react-select'
-import Creatable from 'react-select/creatable';
-import { useEffect, useState } from 'react'
-import { timestamp } from '../../firebase/config'
-import { useCollection } from '../../hooks/useCollection'
-import { useAuthContext } from '../../hooks/useAuthContext'
-import { useFirestore } from '../../hooks/useFirestore'
-import { useHistory } from 'react-router-dom'
+import CreatableSelect from 'react-select/creatable';
+import Select from 'react-select';
+import { useEffect, useState } from 'react';
+import { timestamp } from '../../firebase/config';
+import { useCollection } from '../../hooks/useCollection';
+import { useAuthContext } from '../../hooks/useAuthContext';
+import { useFirestore } from '../../hooks/useFirestore';
+import { useHistory } from 'react-router-dom';
 
 //styles
 import './Create.css'
 
 const categories = [
-  { value: 'development', label: 'Development' },
-  { value: 'design', label: 'Design' },
-  { value: 'sales', label: 'Sales' },
-  { value: 'marketing', label: 'Marketing' }
+  { value: 'weeked_meeting', label: 'Weeked Meeting' },
+  { value: 'sunday_meeting', label: 'Sunday Meeting' },
+  { value: 'new_project', label: 'New Project' },
+  { value: 'other', label: 'Other' }
+]
+
+const options = [
+  { value: 'option1', label: 'Option1' },
+  { value: 'option2', label: 'Option2' },
+  { value: 'option3', label: 'Option3' },
+  { value: 'option4', label: 'Option4' }
 ]
 
 export default function Create() {
   const history = useHistory()
-  const { addDocument, response } = useFirestore('projects')
+  const { addDocument, response } = useFirestore('meetings')
   const { documents } = useCollection('users')
   const [ users, setUsers ] = useState([])
   const { user } = useAuthContext()
@@ -55,7 +62,7 @@ export default function Create() {
       setFormError('Please choose meeting category !')
       return
     }
-    if (topics.length < 1) {
+    if (topics < 1) {
       setFormError('Please type at least 1 Topic to your meeting !')
       return
     }
@@ -82,21 +89,15 @@ export default function Create() {
       }
     })
 
-    const topicList = topics.map((t) => {
-      return{
-        topicList: t.value.topicList
-      }
-    })
-
     const project = {
       name,
-      details,
       category,
+      details,
+      topics,
       dueDate: timestamp.fromDate(new Date(dueDate)),
       comments: [],
       createdBy,
-      assignedUsersList,
-      topicList
+      assignedUsersList
     }
 
 
@@ -111,6 +112,11 @@ export default function Create() {
     if (!response.error) {
       console.log('startmeeting');
     }
+  }
+
+  const handleChange = (selectedOption) => {
+    console.log("handleChange", selectedOption);
+    setTopics(...selectedOption)
   }
 
 
@@ -144,11 +150,12 @@ export default function Create() {
           />
         </label>
         <label>
-          <span>Topics: (Min 1)</span>
-          <Creatable
-            onChange={(e) => setTopics(e)}
-            options={topics}
+        <span>Meeting Topics (Min 1):</span>          
+          <CreatableSelect
             isMulti
+            onChange={handleChange}
+            options={options}
+            placeholder="Type something and press enter..."
           />
         </label>
         <label>

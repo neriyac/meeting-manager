@@ -8,7 +8,7 @@ import './Project.css'
 
 export default function Project() {
   const { id } = useParams() // this "id" comes from (Route path="/projects/:id") we choose in App.
-  const { document, error } = useDocument('projects', id)
+  const { document, error } = useDocument('meetings', id)
 
   if (error) {
     return <div className="error">{error}</div>
