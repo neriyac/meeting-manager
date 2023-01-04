@@ -11,10 +11,10 @@ import { useHistory } from 'react-router-dom';
 import './Create.css'
 
 const categories = [
-  { index: 0, value: 'development', label: 'Development' },
-  { index: 1, value: 'design', label: 'Design' },
-  { index: 2, value: 'sales', label: 'Sales' },
-  { index: 3, value: 'marketing', label: 'Marketing' }
+  { index: 0, value: 'projects', label: 'New Projects' },
+  { index: 1, value: 'sunday', label: 'Sunday Meetings' },
+  { index: 2, value: 'weekend', label: 'Weekend Meeting' },
+  { index: 3, value: 'other', label: 'Other' }
 ]
 
 // const options = [

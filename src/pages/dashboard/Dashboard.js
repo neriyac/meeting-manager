@@ -27,11 +27,11 @@ export default function Dashboard() {
           }
         })
         return assignedToMe
-      case 'development':
-      case 'design':
-      case 'sales':
-      case 'marketing':
-        // console.log(document.category.value, currentFilter)
+      case 'projects':
+      case 'sunday':
+      case 'weekend':
+      case 'other':
+        console.log(document.category.value, currentFilter)
         return document.category.value === currentFilter
       default:
         return true

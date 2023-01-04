@@ -1,4 +1,4 @@
-const filterList = ['all', 'mine', 'development', 'design', 'sales', 'marketing']
+const filterList = ['all', 'mine', 'projects', 'sunday', 'weekend', 'other']
 
 export default function ProjectFilter({ currentFilter, changeFilter }) {
 
