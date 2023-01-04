@@ -1,4 +1,4 @@
-import CreatableSelect from 'react-select/creatable';
+// import CreatableSelect from 'react-select/creatable';
 import Select from 'react-select';
 import { useEffect, useState } from 'react';
 import { timestamp } from '../../firebase/config';
@@ -11,18 +11,18 @@ import { useHistory } from 'react-router-dom';
 import './Create.css'
 
 const categories = [
-  { value: 'weeked_meeting', label: 'Weeked Meeting' },
-  { value: 'sunday_meeting', label: 'Sunday Meeting' },
-  { value: 'new_project', label: 'New Project' },
-  { value: 'other', label: 'Other' }
+  { index: 0, value: 'development', label: 'Development' },
+  { index: 1, value: 'design', label: 'Design' },
+  { index: 2, value: 'sales', label: 'Sales' },
+  { index: 3, value: 'marketing', label: 'Marketing' }
 ]
 
-const options = [
-  { value: 'option1', label: 'Option1' },
-  { value: 'option2', label: 'Option2' },
-  { value: 'option3', label: 'Option3' },
-  { value: 'option4', label: 'Option4' }
-]
+// const options = [
+//   { index: 0, value: 'option1', label: 'Option1' },
+//   { index: 1, value: 'option2', label: 'Option2' },
+//   { index: 2, value: 'option3', label: 'Option3' },
+//   { index: 3, value: 'option4', label: 'Option4' }
+// ]
 
 export default function Create() {
   const history = useHistory()
@@ -35,7 +35,7 @@ export default function Create() {
   const [name, setName] = useState('')
   const [category, setCategory] = useState('')
   const [details, setDetails] = useState('')
-  const [topics, setTopics] = useState([])
+  // const [topics, setTopics] = useState([])
   const [dueDate, setDueDate] = useState('')
   const [assignedUsers, setAssignedUsers] = useState([])
   const [formError, setFormError] = useState(null)
@@ -62,10 +62,10 @@ export default function Create() {
       setFormError('Please choose meeting category !')
       return
     }
-    if (topics.length < 1) {
-      setFormError('Please type at least 1 Topic to your meeting !')
-      return
-    }
+    // if (topics.length < 1) {
+    //   setFormError('Please type at least 1 Topic to your meeting !')
+    //   return
+    // }
     if (!dueDate) {
       setFormError('Please select the date for you meeting !')
       return
@@ -81,7 +81,7 @@ export default function Create() {
       id: user.uid
     }
 
-    const assignedUsersList = assignedUsers?.map((u) => {
+    const assignedUsersList = assignedUsers.map((u) => {
       return{
         displayName: u.value.displayName,
         photoURL: u.value.photoURL,
@@ -89,20 +89,20 @@ export default function Create() {
       }
     })
 
-    const topicsList = topics?.map((t) => {
-      return{
-        index: t.value.i,
-        label: t.value.label,
-        value: t.value.value
-      }
-    })
+    // const topicsList = topics.map((t) => {
+    //   return{
+    //     index: t.value.i,
+    //     label: t.value.label,
+    //     value: t.value.value
+    //   }
+    // })
   
 
     const project = {
       name,
       category,
       details,
-      topicsList,
+      // topicsList,
       dueDate: timestamp.fromDate(new Date(dueDate)),
       comments: [],
       createdBy,
@@ -124,8 +124,8 @@ export default function Create() {
   }
 
   // const handleChange = (selectedOptions) => {
-  //   console.log("handleChange", selectedOptions: e.label);
-  //   // setTopics(...selectedOptions)
+  //   console.log("handleChange", selectedOptions);
+  //   setTopics(selectedOptions)
   // }  
 
 
@@ -146,7 +146,7 @@ export default function Create() {
         <label>
           <span>Meeting category:*</span>
           <Select
-            placeholder="Select new category here..."
+            placeholder="Select new Category here..."
             onChange={(option) => setCategory(option)}
             options={categories}
           />
@@ -160,15 +160,15 @@ export default function Create() {
             value={details}
           />
         </label>
-        <label>
+        {/* <label>
         <span>Meeting Topic(s): (Min 1)</span>          
           <CreatableSelect
             isMulti
-            onChange={(option) => setTopics(option)}
+            onChange={(e) => handleChange(e)}
             options={options}
             placeholder="Type the Topics here and press enter..."
           />
-        </label>
+        </label> */}
         <label>
           <span>Meeting Date:*</span>
           <input

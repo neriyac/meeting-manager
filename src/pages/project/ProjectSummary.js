@@ -10,7 +10,7 @@ export default function ProjectSummary({ project }) {
   const { user } = useAuthContext()
   const history = useHistory()
 
-  const handleClick = (e) => {
+  const handleDelete = (e) => {
     deleteDocument(project.id)
     history.push("/")
   }
@@ -27,28 +27,32 @@ export default function ProjectSummary({ project }) {
         <p className="due-date">
             Meeting start in {project.dueDate.toDate().toDateString()}
         </p>
-        <p className="details">{project.details}</p>
-        <div className='topics'>
-        {project.topicsList && <h3>Topics:</h3>}
-        {project.topicsList.map(topic => (
-            <div key={topic.label}>
-                <li>{topic.label}</li>
-              </div>
-          ))}
-        </div>
-        <h4>Meeting Leader:</h4>
-        <div className="assigned-users">
+        <p className="details">{project.details}</p>       
+          <h4>Meeting Leader:</h4>
+          <div className="assigned-users">
             {project.assignedUsersList.map(user => (
-                <div key={user.id}>
-                    <Avatar src={user.photoURL} />
-                </div>
+              <div key={user.id}>
+                <Avatar src={user.photoURL} />
+              </div>
             ))}
-        </div>
-      </div>
-              {user.uid === project.createdBy.id && (
-          <button className="btn" onClick={handleClick}>Mark as complete & Delete</button>
-        )}
-        <button className="btngreen" onClick={StartMeeting}>Start Meeting Now</button>
+          </div>
+          <div>
+            {project.category && <p>{project.category.label}</p> }
+          </div>
+          </div>
+          {user.uid === project.createdBy.id && (
+            <button
+              className="btn"
+              onClick={(e) => {
+                if (window.confirm('Are you sure you wish to delete this meeting?')) {
+                  handleDelete(e)
+                } else {
+                 console.log("don't delete")
+                }}}
+              >Mark as complete & Delete
+            </button>
+          )}
+          <button className="btngreen" onClick={StartMeeting}>Start Meeting Now</button>
     </div>
   )
 }
