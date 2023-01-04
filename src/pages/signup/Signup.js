@@ -22,6 +22,10 @@ export default function Signup() {
       setPasswordError('Password not matched. Please try again.')
       return
     }
+    if (thumbnailError){
+      setPasswordError(null)
+      return
+    }
     signup(email, password, displayName, thumbnail);
   }
 
@@ -30,7 +34,7 @@ export default function Signup() {
     let selected = e.target.files[0]
     console.log(selected);
 
-    if (!selected) { // remove the '!' if you want to allow profiles without photo. < NOT TURE !!!
+    if (!selected) { // remove the '!' if you want to allow profiles without photo. < NOT TRUE !!!
       setThumbnailError('Please select file')
       return //this return is cus when we got 1 error - we go out of this function.
     }
