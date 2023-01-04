@@ -42,7 +42,7 @@ export default function Create() {
 
   useEffect(() => {
     if (documents) {
-      const options = documents.map((user) => {
+      const options = documents?.map((user) => {
         return {value: user ,label: user.displayName}
       })
       setUsers(options)
@@ -62,7 +62,7 @@ export default function Create() {
       setFormError('Please choose meeting category !')
       return
     }
-    if (topics < 1) {
+    if (topics.length < 1) {
       setFormError('Please type at least 1 Topic to your meeting !')
       return
     }
@@ -81,7 +81,7 @@ export default function Create() {
       id: user.uid
     }
 
-    const assignedUsersList = assignedUsers.map((u) => {
+    const assignedUsersList = assignedUsers?.map((u) => {
       return{
         displayName: u.value.displayName,
         photoURL: u.value.photoURL,
@@ -89,11 +89,20 @@ export default function Create() {
       }
     })
 
+    const topicsList = topics?.map((t) => {
+      return{
+        index: t.value.i,
+        label: t.value.label,
+        value: t.value.value
+      }
+    })
+  
+
     const project = {
       name,
       category,
       details,
-      topics,
+      topicsList,
       dueDate: timestamp.fromDate(new Date(dueDate)),
       comments: [],
       createdBy,
@@ -114,10 +123,10 @@ export default function Create() {
     }
   }
 
-  const handleChange = (selectedOption) => {
-    console.log("handleChange", selectedOption);
-    setTopics(...selectedOption)
-  }
+  // const handleChange = (selectedOptions) => {
+  //   console.log("handleChange", selectedOptions: e.label);
+  //   // setTopics(...selectedOptions)
+  // }  
 
 
   return (
@@ -127,6 +136,7 @@ export default function Create() {
         <label>
           <span>Meeting Name:*</span>
           <input
+            placeholder='Example: Morning Meeting'
             required
             type="text"
             onChange={(e) => setName(e.target.value)}
@@ -144,18 +154,19 @@ export default function Create() {
         <label>
           <span>Meeting Description (optional):</span>
           <textarea
+            placeholder='Example: We decided to meet every Sunday morning to...'
             type="text"
             onChange={(e) => setDetails(e.target.value)}
             value={details}
           />
         </label>
         <label>
-        <span>Meeting Topics (Min 1):</span>          
+        <span>Meeting Topic(s): (Min 1)</span>          
           <CreatableSelect
             isMulti
-            onChange={handleChange}
+            onChange={(option) => setTopics(option)}
             options={options}
-            placeholder="Type something and press enter..."
+            placeholder="Type the Topics here and press enter..."
           />
         </label>
         <label>

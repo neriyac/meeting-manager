@@ -29,13 +29,12 @@ export default function ProjectSummary({ project }) {
         </p>
         <p className="details">{project.details}</p>
         <div className='topics'>
-        {project.topics && <h3>Topics:</h3>}
-        {!project.topics.map(topic => (
-            <div key={topic.value}>
+        {project.topicsList && <h3>Topics:</h3>}
+        {project.topicsList.map(topic => (
+            <div key={topic.label}>
                 <li>{topic.label}</li>
               </div>
           ))}
-
         </div>
         <h4>Meeting Leader:</h4>
         <div className="assigned-users">

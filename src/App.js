@@ -8,6 +8,8 @@ import './App.css'
 import Dashboard from './pages/dashboard/Dashboard';
 import Create from './pages/create/Create';
 import Login from './pages/login/Login';
+import Statistics from './pages/statistics/Statistics';
+import Folders from './pages/folders/Folders';
 import Signup from './pages/signup/Signup';
 import Project from './pages/project/Project';
 import Navbar from './components/Navbar';
@@ -33,6 +35,14 @@ function App() {
             <Route path="/create">
               {!user && <Redirect to="/login"/>}
               {user && <Create/>}
+            </Route>
+            <Route path="/statistics">
+              {!user && <Redirect to="/login"/>}
+              {user && <Statistics/>}
+            </Route>
+            <Route path="/folders">
+              {!user && <Redirect to="/login"/>}
+              {user && <Folders/>}
             </Route>
             <Route path="/projects/:id">
               {!user && <Redirect to="/login"/>}

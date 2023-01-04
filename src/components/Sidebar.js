@@ -29,21 +29,21 @@ export default function Sidebar() {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/create">
+                    <NavLink exact to="/create">
                         <img src={AddIcon} alt="add project icon" />
                         <span>New Meeting</span>
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/test">
+                    <NavLink to="/statistics">
                         <img src={StatsIcon} alt="add project icon" />
                         <span>Statistic</span>
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/test">
+                    <NavLink to="/folders">
                         <img src={ProjectsIcon} alt="add project icon" />
-                        <span>Projects</span>
+                        <span>Folders</span>
                     </NavLink>
                 </li>
             </ul>
