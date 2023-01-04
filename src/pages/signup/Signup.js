@@ -8,6 +8,8 @@ import './Signup.css'
 export default function Signup() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [passwordError, setPasswordError] = useState(null)
   const [displayName, setDisplayName] = useState('')
   const [thumbnail, setThumbnail] = useState(null)
   const [thumbnailError, setThumbnailError] = useState(null)
@@ -15,6 +17,11 @@ export default function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+
+    if ( confirmPassword !== password ) {
+      setPasswordError('Password not matched. Please try again.')
+      return
+    }
     signup(email, password, displayName, thumbnail);
   }
 
@@ -23,7 +30,7 @@ export default function Signup() {
     let selected = e.target.files[0]
     console.log(selected);
 
-    if (!selected) { // remove the '!' if you want to allow profiles without photo.
+    if (!selected) { // remove the '!' if you want to allow profiles without photo. < NOT TURE !!!
       setThumbnailError('Please select file')
       return //this return is cus when we got 1 error - we go out of this function.
     }
@@ -75,6 +82,16 @@ export default function Signup() {
             onChange={(e) => setPassword(e.target.value)}
             value={password}
             />
+        </label>
+        <label>
+          <span>Confirm Password*</span>
+          <input
+            type="password"
+            required
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            value={confirmPassword}
+            />
+            {passwordError && <div className="error">{passwordError}</div>  }
         </label>
         <label>
           <span>Profile IMG*</span>
