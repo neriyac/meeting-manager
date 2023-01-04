@@ -2,6 +2,7 @@ import { useHistory } from 'react-router-dom'
 import Avatar from '../../components/Avatar'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useFirestore } from '../../hooks/useFirestore'
+import ReactToolTip from '../../components/Tooltip';
 
 
 
@@ -32,7 +33,9 @@ export default function ProjectSummary({ project }) {
           <div className="assigned-users">
             {project.assignedUsersList.map(user => (
               <div key={user.id}>
-                <Avatar src={user.photoURL} />
+                <ReactToolTip theme="dark" position="top" title={user.displayName}>
+                  <Avatar src={user.photoURL} />
+                </ReactToolTip>
               </div>
             ))}
           </div>
