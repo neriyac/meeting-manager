@@ -1,8 +1,8 @@
-import { useHistory } from 'react-router-dom'
-import Avatar from '../../components/Avatar'
+import { useHistory, Link } from 'react-router-dom'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useFirestore } from '../../hooks/useFirestore'
 import ReactToolTip from '../../components/Tooltip';
+import Avatar from '../../components/Avatar'
 
 
 
@@ -15,32 +15,36 @@ export default function ProjectSummary({ project }) {
     deleteDocument(project.id)
     history.push("/")
   }
-
-  const StartMeeting = () => {
-    console.log('StartMeeting');
-  }
   
   return (
     <div>
       <div className="project-summary">
-        <h2 className="page-title">{project.name}</h2>
+        <h2>{project.name}</h2>
         <p>Created by {project.createdBy.displayName}</p>
         <p className="due-date">
             Meeting start in {project.dueDate.toDate().toDateString()}
         </p>
-        <p className="details">{project.details}</p>       
-          <h4>Meeting Leader:</h4>
-          <div className="assigned-users">
-            {project.assignedUsersList.map(user => (
-              <div key={user.id}>
-                <ReactToolTip theme="dark" position="top" title={user.displayName}>
-                  <Avatar src={user.photoURL} />
-                </ReactToolTip>
-              </div>
-            ))}
+        <p className="details">{project.details}</p>
+        {/* <div>
+        {project.topics?.map(topic => (
+          <div key={topic.index}>
+            <span>{topic.label}</span>
           </div>
+          ))}
+        </div>     */}
+        <h4>Meeting Leader(s):</h4>
+        <div className="assigned-users">
+          {project.assignedUsersList.map(user => (
+          <div key={user.id}>
+            <ReactToolTip theme="dark" position="top" title={user.displayName}>
+              <Avatar src={user.photoURL} />
+            </ReactToolTip>
+          </div>
+          ))}
+        </div>
           <div>
-            {project.category && <p>{project.category.label}</p> }
+            <span>Project Category:</span>
+            {project.category && <h4>{project.category.label}</h4> }
           </div>
           </div>
           {user.uid === project.createdBy.id && (
@@ -55,7 +59,9 @@ export default function ProjectSummary({ project }) {
               >Mark as complete & Delete
             </button>
           )}
-          <button className="btngreen" onClick={StartMeeting}>Start Meeting Now</button>
+          <button className="btngreen" onClick={(project) => (
+            <Link to={`/meetings/active/${project.id}`} key={project.id}></Link>
+            )}>Start Meeting Now</button>
     </div>
   )
 }
