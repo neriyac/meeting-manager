@@ -89,11 +89,11 @@ export default function Create() {
       }
     })
 
-    // const topicsList = topics.map((t) => {
+    // const topicsList = topics.map((topic) => {
     //   return{
-    //     index: t.value.i,
-    //     label: t.value.label,
-    //     value: t.value.value
+    //     index: topic.value.i,
+    //     value: topic.value.value,
+    //     label: topic.value.label
     //   }
     // })
   
@@ -163,8 +163,9 @@ export default function Create() {
         {/* <label>
         <span>Meeting Topic(s): (Min 1)</span>          
           <CreatableSelect
+            required
             isMulti
-            onChange={(e) => handleChange(e)}
+            onChange={(e) => setTopics(e)}
             options={options}
             placeholder="Type the Topics here and press enter..."
           />

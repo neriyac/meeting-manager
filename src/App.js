@@ -15,6 +15,7 @@ import Project from './pages/project/Project';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import OnlineUsers from './components/OnlineUsers';
+import ProjectActive from './pages/project/ProjectActive';
 
 
 function App() {
@@ -44,9 +45,13 @@ function App() {
               {!user && <Redirect to="/login"/>}
               {user && <Folders/>}
             </Route>
-            <Route path="/projects/:id">
+            <Route path="/meetings/:id">
               {!user && <Redirect to="/login"/>}
               {user && <Project/>}
+            </Route>
+            <Route path="/meetings/:id/active">
+              {!user && <Redirect to="/login"/>}
+              {user && <ProjectActive/>}
             </Route>
             <Route path="/login">
               {user && <Redirect to="/"/>}
