@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom'
 import { useDocument } from '../../hooks/useDocument'
 
 //styles
-// import './Project.css'
+import './ProjectActive.css'
 
 export default function ProjectActive() {
   const { id } = useParams()
@@ -16,8 +16,8 @@ export default function ProjectActive() {
   }
 
   return (
-    <div className='project-details'>
-      test
+    <div className='meeting-title'>
+      <h2>Active Meeting</h2>
     </div>
   )
 }

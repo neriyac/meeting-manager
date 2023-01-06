@@ -26,13 +26,13 @@ export default function ProjectSummary({ project }) {
         </p>
         <p className="details">{project.details}</p>
         <h4>Meeting Topic(s):</h4>
-        {/* <div className="topics">
+        <div className="topics">
           {project.topicsList.map(topic => (
           <div key={topic}>
             <p>{topic.label}</p>
           </div>
           ))}
-        </div>   */}
+        </div>  
         <h4>Meeting Leader(s):</h4>
         <div className="assigned-users">
           {project.assignedUsersList.map(user => (
@@ -60,7 +60,7 @@ export default function ProjectSummary({ project }) {
               >Mark as complete & Delete
             </button>
           )}
-            <Link className='btngreen' to={`/meetings/${id}/active`}>Start Meeting Now</Link>
+            <Link className="btngreen" to={`/meetings/${id}/active`}>Start Meeting Now</Link>
     </div>
   )
 }

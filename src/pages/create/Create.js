@@ -102,7 +102,7 @@ export default function Create() {
       name,
       category,
       details,
-      // topics,
+      // topicsList,
       dueDate: timestamp.fromDate(new Date(dueDate)),
       comments: [],
       createdBy,
@@ -115,15 +115,16 @@ export default function Create() {
     }
   }
 
-  const startMeeting = async (e) => {
+  const handleStart = async (e) => {
     await handleSubmit(e)
     if (!response.error) {
-      console.log('startmeeting');
+      history.push(`/meetings/${response.meetings.id}/active`)
     }
   }
 
   // const handleChange = (selectedOptions) => {
   //   setTopics(selectedOptions)
+  //   console.log(selectedOptions);
   // }  
 
 
@@ -160,10 +161,10 @@ export default function Create() {
         </label>
         {/* <label>
         <span>Meeting Topic(s): (Min 1)</span>          
-          <Select
+          <CreatableSelect
             required
             isMulti
-            onChange={(e) => setTopics(e)}
+            onChange={(e) => handleChange(e)}
             options={options}
             placeholder="Type the Topics here and press enter..."
           />
@@ -186,7 +187,7 @@ export default function Create() {
           />
         </label>
         <button onClick={handleSubmit} className="btn">Add Meeting</button>
-        <button onClick={startMeeting} className="btngreen">Start Meeting Now</button>
+        <button onClick={handleStart} className="btngreen">Start Meeting Now</button>
         {formError && <p className='error'>{formError}</p> }
       </form>
     </div>
