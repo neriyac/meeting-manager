@@ -45,13 +45,13 @@ function App() {
               {!user && <Redirect to="/login"/>}
               {user && <Folders/>}
             </Route>
-            <Route path="/meetings/:id">
-              {!user && <Redirect to="/login"/>}
-              {user && <Project/>}
-            </Route>
             <Route path="/meetings/:id/active">
               {!user && <Redirect to="/login"/>}
               {user && <ProjectActive/>}
+            </Route>
+            <Route path="/meetings/:id">
+              {!user && <Redirect to="/login"/>}
+              {user && <Project/>}
             </Route>
             <Route path="/login">
               {user && <Redirect to="/"/>}

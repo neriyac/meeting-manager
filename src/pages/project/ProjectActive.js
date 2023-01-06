@@ -1,14 +1,12 @@
 import { useParams } from 'react-router-dom'
 import { useDocument } from '../../hooks/useDocument'
-import ProjectSummary from './ProjectSummary'
-import ProjectComments from './ProjectComments'
 
 //styles
-import './Project.css'
+// import './Project.css'
 
 export default function ProjectActive() {
-  const { id } = useParams() // this "id" comes from (Route path="/projects/:id") we choose in App.
-  const { document, error } = useDocument('meetings', 'active', id)
+  const { id } = useParams()
+  const { document, error } = useDocument('meetings', id, 'active')
 
   if (error) {
     return <div className="error">{error}</div>
@@ -19,8 +17,7 @@ export default function ProjectActive() {
 
   return (
     <div className='project-details'>
-      <ProjectSummary project={document}/>
-      <ProjectComments project={document}/>
+      test
     </div>
   )
 }

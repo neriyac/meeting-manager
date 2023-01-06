@@ -18,10 +18,10 @@ const categories = [
 ]
 
 // const options = [
-//   { index: 0, value: 'option1', label: 'Option1' },
-//   { index: 1, value: 'option2', label: 'Option2' },
-//   { index: 2, value: 'option3', label: 'Option3' },
-//   { index: 3, value: 'option4', label: 'Option4' }
+//   { label: 'option1', value: 'option1', __isNew__:false },
+//   { label: 'option2', value: 'option2', __isNew__:false },
+//   { label: 'option3', value: 'option3', __isNew__:false },
+//   { label: 'option4', value: 'option4', __isNew__:false }
 // ]
 
 export default function Create() {
@@ -91,7 +91,7 @@ export default function Create() {
 
     // const topicsList = topics.map((topic) => {
     //   return{
-    //     index: topic.value.i,
+    //     index: topic.value.index,
     //     value: topic.value.value,
     //     label: topic.value.label
     //   }
@@ -102,13 +102,12 @@ export default function Create() {
       name,
       category,
       details,
-      // topicsList,
+      // topics,
       dueDate: timestamp.fromDate(new Date(dueDate)),
       comments: [],
       createdBy,
       assignedUsersList
     }
-
 
     await addDocument(project)
     if (!response.error) {
@@ -124,7 +123,6 @@ export default function Create() {
   }
 
   // const handleChange = (selectedOptions) => {
-  //   console.log("handleChange", selectedOptions);
   //   setTopics(selectedOptions)
   // }  
 
@@ -162,7 +160,7 @@ export default function Create() {
         </label>
         {/* <label>
         <span>Meeting Topic(s): (Min 1)</span>          
-          <CreatableSelect
+          <Select
             required
             isMulti
             onChange={(e) => setTopics(e)}
