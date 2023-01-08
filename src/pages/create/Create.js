@@ -1,4 +1,3 @@
-// import CreatableSelect from 'react-select/creatable';
 import Select from 'react-select';
 import { useEffect, useState } from 'react';
 import { timestamp } from '../../firebase/config';
@@ -35,7 +34,7 @@ export default function Create() {
   const [name, setName] = useState('')
   const [category, setCategory] = useState('')
   const [details, setDetails] = useState('')
-  // const [topics, setTopics] = useState([])
+  const [topics, setTopics] = useState([{ topic: ""}])
   const [dueDate, setDueDate] = useState('')
   const [assignedUsers, setAssignedUsers] = useState([])
   const [formError, setFormError] = useState(null)
@@ -62,10 +61,10 @@ export default function Create() {
       setFormError('Please choose meeting category !')
       return
     }
-    // if (topics.length < 1) {
-    //   setFormError('Please type at least 1 Topic to your meeting !')
-    //   return
-    // }
+    if (topics.length < 1) {
+      setFormError('Please type at least 1 Topic to your meeting !')
+      return
+    }
     if (!dueDate) {
       setFormError('Please select the date for you meeting !')
       return
@@ -89,26 +88,18 @@ export default function Create() {
       }
     })
 
-    // const topicsList = topics.map((topic) => {
-    //   return{
-    //     index: topic.value.index,
-    //     value: topic.value.value,
-    //     label: topic.value.label
-    //   }
-    // })
-  
-
     const project = {
       name,
       category,
       details,
-      // topicsList,
+      topics,
       dueDate: timestamp.fromDate(new Date(dueDate)),
       comments: [],
       createdBy,
       assignedUsersList
     }
 
+    alert(JSON.stringify(topics));
     await addDocument(project)
     if (!response.error) {
       history.push("/")
@@ -127,6 +118,26 @@ export default function Create() {
   //   console.log(selectedOptions);
   // }  
 
+  const handleTopicChange = (i, e) => {
+    let newTopics = [...topics];
+    newTopics[i][e.target.name] = e.target.value;
+    setTopics(newTopics);
+  }
+
+  const addFormFields = () => {
+    setTopics([...topics, { topic: ""}])
+  }
+
+  const removeFormFields = (i) => {
+    let newTopics = [...topics];
+    newTopics.splice(i, 1);
+    setTopics(newTopics)
+  }
+
+  // const handleTopicSubmit = (e) => {
+  //   e.preventDefault();
+  //   alert(JSON.stringify(topics));
+  // }
 
   return (
     <div className='create-form'>
@@ -159,16 +170,32 @@ export default function Create() {
             value={details}
           />
         </label>
-        {/* <label>
+        <label>
         <span>Meeting Topic(s): (Min 1)</span>          
-          <CreatableSelect
-            required
-            isMulti
-            onChange={(e) => handleChange(e)}
-            options={options}
-            placeholder="Type the Topics here and press enter..."
-          />
-        </label> */}
+            {topics.map((element, index) => (
+              <div key={index}>
+                <span className='label'>Topic {index + 1}</span>
+                <div className="form-inline">
+                  <input
+                    type="text"
+                    name="topic"
+                    placeholder="Add topic here.."
+                    className="topicinput"
+                    value={element.topic || ""}
+                    onChange={e => handleTopicChange(index, e)}
+                    />
+                  {
+                    index ? 
+                      <button type="button"  className="btnremove" onClick={() => removeFormFields(index)}>X</button> 
+                    : null
+                  }
+                </div>
+              </div>
+            ))}
+            <div className="button-section">
+                <button className="btngreen" type="button" onClick={() => addFormFields()}>Add Topic</button>
+            </div>
+        </label>
         <label>
           <span>Meeting Date:*</span>
           <input

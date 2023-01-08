@@ -3,3 +3,31 @@
     margin-bottom: 120px;
     max-width: 600px;
 }
+.form-inline {
+    display: flex;
+}
+.label {
+    margin: 8px;
+}
+.topicinput {
+    border: 1px solid black;
+    border-radius: 10px;
+    max-width: 200px;
+    /* margin-bottom: 5px; */
+}
+.btnremove {
+    align-items: center;
+    display: flex;
+    background: #fff;
+    margin: 1px;
+    /* padding: 5px 5px; */
+    color: var(--primary-color);
+    cursor: pointer;
+    font-size: 1em;
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
+  }
+  .btnremove:hover {
+    color: #fff;
+    background-color: var(--primary-color);
+  }

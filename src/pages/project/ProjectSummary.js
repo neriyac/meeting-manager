@@ -27,9 +27,9 @@ export default function ProjectSummary({ project }) {
         <p className="details">{project.details}</p>
         <h4>Meeting Topic(s):</h4>
         <div className="topics">
-          {project.topicsList.map(topic => (
-          <div key={topic}>
-            <p>{topic.label}</p>
+          {project.topics.map((topic, index) => (
+          <div key={index}>
+            <p>{topic.topic}</p>
           </div>
           ))}
         </div>  
