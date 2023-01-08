@@ -5,7 +5,7 @@ import { useAuthContext } from '../../hooks/useAuthContext'
 import { useFirestore } from '../../hooks/useFirestore'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
-export default function ProjectComments({ project }) {
+export default function MeetingComments({ meeting }) {
   const { updateDocument, response } = useFirestore('meetings')
   const [newComment, setNewComment] = useState('')
   const { user } = useAuthContext()
@@ -21,8 +21,8 @@ export default function ProjectComments({ project }) {
         id: Math.random()
     }
     
-    await updateDocument(project.id, {
-      comments: [...project.comments, commentToAdd]
+    await updateDocument(meeting.id, {
+      comments: [...meeting.comments, commentToAdd]
     })
     if (!response.error) {
       setNewComment('')
@@ -34,7 +34,7 @@ export default function ProjectComments({ project }) {
       <h4>Meeting Notes</h4>
 
       <ul>
-        {project.comments.length > 0 && project.comments.map(comment => (
+        {meeting.comments.length > 0 && meeting.comments.map(comment => (
           <li key={comment.id}>
             <div className="comment-author">
               <Avatar src={comment.photoURL}/>

@@ -4,7 +4,7 @@ import { useFirestore } from '../../hooks/useFirestore'
 import ReactToolTip from '../../components/Tooltip';
 import Avatar from '../../components/Avatar'
 
-export default function ProjectSummary({ project }) {
+export default function MeetingSummary({ meeting }) {
   const { deleteDocument} = useFirestore('meetings')
   const { user } = useAuthContext()
   const history = useHistory()
@@ -12,22 +12,22 @@ export default function ProjectSummary({ project }) {
 
 
   const handleDelete = (e) => {
-    deleteDocument(project.id)
+    deleteDocument(meeting.id)
     history.push("/")
   }
   
   return (
     <div>
       <div className="project-summary">
-        <h2>{project.name}</h2>
-        <p>Created by {project.createdBy.displayName}</p>
+        <h2>{meeting.name}</h2>
+        <p>Created by {meeting.createdBy.displayName}</p>
         <p className="due-date">
-            Meeting start in {project.dueDate.toDate().toDateString()}
+            Meeting start in {meeting.dueDate.toDate().toDateString()}
         </p>
-        <p className="details">{project.details}</p>
+        <p className="details">{meeting.details}</p>
         <h4>Meeting Topic(s):</h4>
         <div className="topics">
-          {project.topics.map((topic, index) => (
+          {meeting.topics.map((topic, index) => (
           <div key={index}>
             <p>{topic.topic}</p>
           </div>
@@ -35,7 +35,7 @@ export default function ProjectSummary({ project }) {
         </div>  
         <h4>Meeting Leader(s):</h4>
         <div className="assigned-users">
-          {project.assignedUsersList.map(user => (
+          {meeting.assignedUsersList.map(user => (
           <div key={user.id}>
             <ReactToolTip theme="dark" position="top" title={user.displayName}>
               <Avatar src={user.photoURL} />
@@ -44,11 +44,11 @@ export default function ProjectSummary({ project }) {
           ))}
         </div>
           <div>
-            <span>Project Category:</span>
-            {project.category && <h4>{project.category.label}</h4> }
+            <span>Meeting Category:</span>
+            {meeting.category && <h4>{meeting.category.label}</h4> }
           </div>
           </div>
-          {user.uid === project.createdBy.id && (
+          {user.uid === meeting.createdBy.id && (
             <button
               className="btn"
               onClick={(e) => {

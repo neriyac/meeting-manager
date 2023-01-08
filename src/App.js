@@ -11,11 +11,11 @@ import Login from './pages/login/Login';
 import Statistics from './pages/statistics/Statistics';
 import Folders from './pages/folders/Folders';
 import Signup from './pages/signup/Signup';
-import Project from './pages/project/Project';
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import OnlineUsers from './components/OnlineUsers';
-import ProjectActive from './pages/project/ProjectActive';
+import MeetingActive from './pages/meeting/MeetingActive';
+import Meeting from './pages/meeting/Meeting';
 
 
 function App() {
@@ -47,11 +47,11 @@ function App() {
             </Route>
             <Route path="/meetings/:id/active">
               {!user && <Redirect to="/login"/>}
-              {user && <ProjectActive/>}
+              {user && <MeetingActive/>}
             </Route>
             <Route path="/meetings/:id">
               {!user && <Redirect to="/login"/>}
-              {user && <Project/>}
+              {user && <Meeting/>}
             </Route>
             <Route path="/login">
               {user && <Redirect to="/"/>}

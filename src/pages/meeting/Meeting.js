@@ -1,12 +1,12 @@
 import { useParams } from 'react-router-dom'
 import { useDocument } from '../../hooks/useDocument'
-import ProjectSummary from './ProjectSummary'
-import ProjectComments from './ProjectComments'
+import MeetingSummary from './MeetingSummary'
+import MeetingComments from './MeetingComments'
 
 //styles
-import './Project.css'
+import './Meeting.css'
 
-export default function Project() {
+export default function Meeting() {
   const { id } = useParams() // this "id" comes from (Route path="/projects/:id") we choose in App.
   const { document, error } = useDocument('meetings', id)
 
@@ -20,8 +20,8 @@ export default function Project() {
 
   return (
     <div className='project-details'>
-      <ProjectSummary project={document}/>
-      <ProjectComments project={document}/>
+      <MeetingSummary meeting={document}/>
+      <MeetingComments meeting={document}/>
     </div>
   )
 }

@@ -2,9 +2,9 @@ import { useParams } from 'react-router-dom'
 import { useDocument } from '../../hooks/useDocument'
 
 //styles
-import './ProjectActive.css'
+import './MeetingActive.css'
 
-export default function ProjectActive() {
+export default function MeetingActive() {
   const { id } = useParams()
   const { document, error } = useDocument('meetings', id, 'active')
 
