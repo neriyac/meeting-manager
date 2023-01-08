@@ -88,7 +88,7 @@ export default function Create() {
       }
     })
 
-    const project = {
+    const meeting = {
       name,
       category,
       details,
@@ -99,8 +99,8 @@ export default function Create() {
       assignedUsersList
     }
 
-    alert(JSON.stringify(topics));
-    await addDocument(project)
+    // alert(JSON.stringify(topics));
+    await addDocument(meeting)
     if (!response.error) {
       history.push("/")
     }
