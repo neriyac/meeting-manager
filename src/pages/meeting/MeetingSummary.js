@@ -25,11 +25,11 @@ export default function MeetingSummary({ meeting }) {
             Meeting start in {meeting.dueDate.toDate().toDateString()}
         </p>
         <p className="details">{meeting.details}</p>
-        <h4>Meeting Topic(s):</h4>
+        {meeting.topics > 0 && <h4>Meeting Topics:</h4>}
         <div className="topics">
-          {meeting.topics.map((topic, index) => (
+          {meeting.topics > 0 && meeting.topics.map((topic, index) => (
           <div key={index}>
-            <p>{topic.topic}</p>
+            <li>{topic.topic}</li>
           </div>
           ))}
         </div>  
@@ -57,7 +57,7 @@ export default function MeetingSummary({ meeting }) {
                 } else {
                  console.log("don't delete")
                 }}}
-              >Mark as complete & Delete
+              >Delete Meeting
             </button>
           )}
             <Link className="btngreen" to={`/meetings/${id}/active`}>Start Meeting Now</Link>

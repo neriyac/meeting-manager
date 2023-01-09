@@ -62,7 +62,7 @@ export default function Create() {
       return
     }
     if (topics.length < 1) {
-      setFormError('Please type at least 1 Topic to your meeting !')
+      setFormError('Please type at least 2 Topics to your meeting !')
       return
     }
     if (!dueDate) {
@@ -72,7 +72,7 @@ export default function Create() {
     if (assignedUsers.length < 1) {
       setFormError('Please assign at least 1 Leader to your meeting !')
       return
-    } 
+    }
 
     const createdBy = {
       displayName: user.displayName,
@@ -99,7 +99,8 @@ export default function Create() {
       assignedUsersList
     }
 
-    // alert(JSON.stringify(topics));
+    console.log(meeting);
+
     await addDocument(meeting)
     if (!response.error) {
       history.push("/")
@@ -113,10 +114,6 @@ export default function Create() {
     }
   }
 
-  // const handleChange = (selectedOptions) => {
-  //   setTopics(selectedOptions)
-  //   console.log(selectedOptions);
-  // }  
 
   const handleTopicChange = (i, e) => {
     let newTopics = [...topics];
@@ -133,11 +130,6 @@ export default function Create() {
     newTopics.splice(i, 1);
     setTopics(newTopics)
   }
-
-  // const handleTopicSubmit = (e) => {
-  //   e.preventDefault();
-  //   alert(JSON.stringify(topics));
-  // }
 
   return (
     <div className='create-form'>
@@ -171,7 +163,7 @@ export default function Create() {
           />
         </label>
         <label>
-        <span>Meeting Topic(s): (Min 1)</span>          
+        <span>Meeting Topics: (Min 2)</span>          
             {topics.map((element, index) => (
               <div key={index}>
                 <span className='label'>Topic {index + 1}</span>
