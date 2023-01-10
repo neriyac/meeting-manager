@@ -49,13 +49,24 @@
 .project-active + .btn {
     margin-top: 20px;
 }
-.div2 li {
+.div2 div{
     border: 1px solid var(--heading-color) ;
     border-radius: 10px;
+    margin-bottom: 20px;
+}
+.div2 li {
     margin: 20px auto;
     text-align: left;
     list-style-type: none;
 }
 .div2 li:after {
     content: ":"
+}
+.buttom-line {
+    border: 1px solid var(--heading-color) ;
+    border-radius: 10px;
+    padding: 30px;
+    background-color: aqua;
+    position: sticky;
+    bottom: 30px;
 }

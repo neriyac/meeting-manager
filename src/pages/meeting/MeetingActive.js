@@ -1,8 +1,8 @@
-import { useParams, useHistory, Link } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useFirestore } from '../../hooks/useFirestore'
 import { useDocument } from '../../hooks/useDocument'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import ReactToolTip from '../../components/Tooltip'
 import Avatar from '../../components/Avatar'
 
@@ -20,6 +20,21 @@ export default function MeetingActive() {
 
   //useStates
   const [notes, setNotes] = useState([])
+  // const [position, setPosition] = useState(1)
+
+  //scroll sections
+  const categoryTest = useRef(null);
+  // const prev = setPosition(position-1)
+  // const next = setPosition(position+1)
+
+
+  const scrollToSection = (elementRef) => {
+    window.scrollTo({
+      top: elementRef.current.offsetTop,
+      behavior: 'smooth'
+    })
+  }
+
 
   if (error) {
     return <div className="error">{error}</div>
@@ -28,6 +43,11 @@ export default function MeetingActive() {
     return <div className="loading">Loading...</div>
   }
 
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    console.log(notes);
+  }
+  
   const handleDelete = (e) => {
     deleteDocument(meeting.id)
     history.push("/")
@@ -72,19 +92,29 @@ export default function MeetingActive() {
               type="text"
               placeholder='Notes..'
             />
+            <textarea
+              placeholder='Type here..'
+              name="text"
+              cols="30"
+              rows="5">
+              </textarea>
           </div>
           ))}
         </div>
-        <div>
+        <div ref={categoryTest}>
           <span>Meeting Category:</span>
           {meeting.category && <h4>{meeting.category.label}</h4> }
         </div>
+        <div className='buttom-line'>
+            <button onClick={() => scrollToSection(categoryTest) }>test</button>
+            {/* <button onClick={() => scrollToSection(next) }>next</button> */}
+          </div>
         </div>
         {user.uid === meeting.createdBy.id && (
           <button
             className="btn"
             onClick={(e) => {
-              if (window.confirm('Are you sure you wish to delete this meeting?')) {
+              if (window.confirm('Are you sure you wish to DELETE this meeting?')) {
                 handleDelete(e)
               } else {
                 console.log("don't delete")
@@ -92,7 +122,16 @@ export default function MeetingActive() {
             >Delete Meeting
           </button>
         )}
-          <Link className="btngreen" to={`/meetings/${id}/active`}>Start Meeting Now</Link>
+        <button
+          className="btngreen"
+          onClick={(e) => {
+            if (window.confirm('Are you sure you wish to END and ARCHIVE this meeting?')) {
+              handleSubmit(e)
+            } else {
+              console.log("don't end")
+            }}}
+          >End Meeting
+        </button>
     </div>
   )
 }
