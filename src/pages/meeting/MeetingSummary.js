@@ -25,9 +25,9 @@ export default function MeetingSummary({ meeting }) {
             Meeting start in {meeting.dueDate.toDate().toDateString()}
         </p>
         <p className="details">{meeting.details}</p>
-        {meeting.topics > 0 && <h4>Meeting Topics:</h4>}
+        {meeting.topics.length > 0 && <h4>Meeting Topics:</h4>}
         <div className="topics">
-          {meeting.topics > 0 && meeting.topics.map((topic, index) => (
+          {meeting.topics.length > 0 && meeting.topics.map((topic, index) => (
           <div key={index}>
             <li>{topic.topic}</li>
           </div>

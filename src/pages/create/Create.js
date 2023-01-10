@@ -121,8 +121,10 @@ export default function Create() {
     setTopics(newTopics);
   }
 
-  const addFormFields = () => {
-    setTopics([...topics, { topic: ""}])
+  const addFormFields = (e) => {
+    if (e !== 0) {
+      setTopics([...topics, { topic: ""}])
+    }
   }
 
   const removeFormFields = (i) => {
@@ -174,7 +176,7 @@ export default function Create() {
                     placeholder="Add topic here.."
                     className="topicinput"
                     value={element.topic || ""}
-                    onChange={e => handleTopicChange(index, e)}
+                    onChange={(e) => handleTopicChange(index, e)}
                     />
                   {
                     index ? 
@@ -185,7 +187,7 @@ export default function Create() {
               </div>
             ))}
             <div className="button-section">
-                <button className="btngreen" type="button" onClick={() => addFormFields()}>Add Topic</button>
+                <button className="btngreen" type="button" onClick={() => addFormFields(topics.topic)}>Add Topic</button>
             </div>
         </label>
         <label>
