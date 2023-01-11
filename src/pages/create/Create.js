@@ -39,6 +39,18 @@ export default function Create() {
   const [assignedUsers, setAssignedUsers] = useState([])
   const [formError, setFormError] = useState(null)
 
+  const blankTopic = (items) => {
+    for(const item of items)
+    {
+      if(item.topic === "") {
+        return true
+      } 
+    } 
+    return false
+  }
+
+
+
   useEffect(() => {
     if (documents) {
       const options = documents?.map((user) => {
@@ -61,8 +73,8 @@ export default function Create() {
       setFormError('Please choose meeting category !')
       return
     }
-    if (topics.length < 1) {
-      setFormError('Please type at least 2 Topics to your meeting !')
+    if(blankTopic(topics)) {
+      setFormError('tetetetetetet !')
       return
     }
     if (!dueDate) {
@@ -100,6 +112,7 @@ export default function Create() {
     }
 
     console.log(meeting);
+    console.log(typeof topics);
 
     await addDocument(meeting)
     if (!response.error) {

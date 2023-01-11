@@ -24,6 +24,7 @@ export default function MeetingActive() {
 
   //scroll sections
   const categoryTest = useRef(null);
+  const titleTest = useRef(null);
   // const prev = setPosition(position-1)
   // const next = setPosition(position+1)
 
@@ -55,7 +56,7 @@ export default function MeetingActive() {
 
   return (
     <div>
-      <div className="project-active">
+      <div ref={titleTest} className="project-active">
         <div className='title-time-creator'>
           <h2>{meeting.name}</h2>
           <div className='div1'>
@@ -106,9 +107,14 @@ export default function MeetingActive() {
           {meeting.category && <h4>{meeting.category.label}</h4> }
         </div>
         <div className='buttom-line'>
-            <button onClick={() => scrollToSection(categoryTest) }>test</button>
-            {/* <button onClick={() => scrollToSection(next) }>next</button> */}
-          </div>
+          <button className='btn'>prev</button>
+          <button className='btn' onClick={() => scrollToSection(categoryTest) }>category</button>
+          <button className='btn' onClick={() => scrollToSection(titleTest) }>Title</button>
+          <button className='btn'>next</button>
+          <button className='btn'>decisions</button>
+          <button className='btn'>tasks</button>
+          <button className='btn'>placeholder</button>
+        </div>
         </div>
         {user.uid === meeting.createdBy.id && (
           <button
