@@ -34,7 +34,7 @@ export default function Sidebar() {
             <Avatar src={user.photoURL}/>
             <p className={`${mode}`}>Welcome<br/>{user.displayName}</p>
         </div>
-        <nav className="links">
+        <nav className={`links ${mode}`}>
             <ul>
                 <li>
                     <NavLink exact to="/">

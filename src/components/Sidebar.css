@@ -6,7 +6,7 @@
     box-sizing: border-box;
     position: relative;
     color: #fff;
-    transition: 0.3s;
+    transition: 0.1s;
 }
 .sidebar-content {
     position: fixed;
@@ -21,7 +21,7 @@
     border-bottom: 1px solid rgba(255,255,255,0.2);
 }
 .sidebar .links {
-    margin-top: 30%;
+    margin-top: 10px;
     margin-left: 20px;
 }
 .sidebar .links li {
@@ -70,7 +70,6 @@
 .menu .three {
     width: 25px;
 }
-
 .menu:hover div {
     width: 30px;
 }
@@ -94,5 +93,10 @@
 }
 .sidebar .user.close {
     padding: 40px 0px;
+    padding-bottom: 93px;
     border-bottom: 1px solid rgba(255,255,255,0.2);
 }
+/* .sidebar .links.close {
+    margin-top: 68px;
+    margin-left: 20px;
+} */

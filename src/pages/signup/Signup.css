@@ -27,3 +27,7 @@
 .login-link{
     text-align: center;
 }
+div .required::after {
+    content: "*";
+    color: red;
+}

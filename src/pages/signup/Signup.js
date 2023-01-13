@@ -61,7 +61,7 @@ export default function Signup() {
       <form className='auth-form' onSubmit={handleSubmit}>
         <h2>Signup</h2>
         <label>
-          <span>Username*</span>
+          <span className='required'>Username</span>
           <input
             type="text"
             required
@@ -70,7 +70,7 @@ export default function Signup() {
             />
         </label>
         <label>
-          <span>Email*</span>
+          <span className='required'>Email</span>
           <input
             type="email"
             required
@@ -79,7 +79,7 @@ export default function Signup() {
             />
         </label>
         <label>
-          <span>Password*</span>
+          <span className='required'>Password</span>
           <input
             type="password"
             required
@@ -88,7 +88,7 @@ export default function Signup() {
             />
         </label>
         <label>
-          <span>Confirm Password*</span>
+          <span className='required'>Confirm Password</span>
           <input
             type="password"
             required
@@ -98,7 +98,7 @@ export default function Signup() {
             {passwordError && <div className="error">{passwordError}</div>  }
         </label>
         <label>
-          <span>Profile IMG*</span>
+          <span className='required'>Profile IMG</span>
           <input
             type="file"
             required

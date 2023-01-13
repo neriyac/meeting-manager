@@ -5,6 +5,7 @@ import { useCollection } from '../../hooks/useCollection';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useFirestore } from '../../hooks/useFirestore';
 import { useHistory } from 'react-router-dom';
+// import { useForm } from '../../hooks/useForm'
 
 //styles
 import './Create.css'
@@ -16,19 +17,13 @@ const categories = [
   { index: 3, value: 'other', label: 'Other' }
 ]
 
-// const options = [
-//   { label: 'option1', value: 'option1', __isNew__:false },
-//   { label: 'option2', value: 'option2', __isNew__:false },
-//   { label: 'option3', value: 'option3', __isNew__:false },
-//   { label: 'option4', value: 'option4', __isNew__:false }
-// ]
-
 export default function Create() {
   const history = useHistory()
   const { addDocument, response } = useFirestore('meetings')
   const { documents } = useCollection('users')
   const [ users, setUsers ] = useState([])
   const { user } = useAuthContext()
+  // const { userName, userEmail, message } = useForm()
 
   // form field values
   const [name, setName] = useState('')
@@ -37,6 +32,7 @@ export default function Create() {
   const [topics, setTopics] = useState([{ topic: ""}])
   const [dueDate, setDueDate] = useState('')
   const [assignedUsers, setAssignedUsers] = useState([])
+  const [leaders, setLeaders] = useState([])
   const [formError, setFormError] = useState(null)
 
   const blankTopic = (items) => {
@@ -74,11 +70,15 @@ export default function Create() {
       return
     }
     if(blankTopic(topics)) {
-      setFormError('tetetetetetet !')
+      setFormError('You either not added at least 1 topic or left field blank !')
       return
     }
     if (!dueDate) {
       setFormError('Please select the date for you meeting !')
+      return
+    }
+    if (leaders.length < 1) {
+      setFormError('Please assign at least 1 Leader to your meeting !')
       return
     }
     if (assignedUsers.length < 1) {
@@ -100,6 +100,14 @@ export default function Create() {
       }
     })
 
+    const leaderList = leaders.map((l) => {
+      return{
+        displayName: l.value.displayName,
+        photoURL: l.value.photoURL,
+        id: l.value.id
+      }
+    })
+
     const meeting = {
       name,
       category,
@@ -108,6 +116,7 @@ export default function Create() {
       dueDate: timestamp.fromDate(new Date(dueDate)),
       comments: [],
       createdBy,
+      leaderList,
       assignedUsersList
     }
 
@@ -151,7 +160,7 @@ export default function Create() {
       <h2 className="page-title">Create New Meeting</h2>
       <form>
         <label>
-          <span>Meeting Name:*</span>
+          <span className='required'>Meeting Name:</span>
           <input
             placeholder='Example: Morning Meeting'
             required
@@ -161,7 +170,7 @@ export default function Create() {
           />
         </label>
         <label>
-          <span>Meeting category:*</span>
+          <span className='required'>Meeting category:</span>
           <Select
             placeholder="Select new Category here..."
             onChange={(option) => setCategory(option)}
@@ -178,7 +187,7 @@ export default function Create() {
           />
         </label>
         <label>
-        <span>Meeting Topics: (Min 2)</span>          
+        <span className='required'>Meeting Topics: (Min 2)</span>          
             {topics.map((element, index) => (
               <div key={index}>
                 <span className='label'>Topic {index + 1}</span>
@@ -202,27 +211,41 @@ export default function Create() {
             <div className="button-section">
                 <button className="btngreen" type="button" onClick={() => addFormFields(topics.topic)}>Add Topic</button>
             </div>
-        </label>
-        <label>
-          <span>Meeting Date:*</span>
-          <input
-            required
-            type="datetime-local"
-            onChange={(e) => setDueDate(e.target.value)}
-            value={dueDate}
-          />
-        </label>
-        <label>
-          <span>Meeting Leader(s): (Min 1)</span>
-          <Select
-            onChange={(option) => setAssignedUsers(option) }
-            options={users}
-            isMulti
-          />
-        </label>
-        <button onClick={handleSubmit} className="btn">Add Meeting</button>
-        <button onClick={handleStart} className="btngreen">Start Meeting Now</button>
-        {formError && <p className='error'>{formError}</p> }
+            </label>
+            <label>
+              <span className='required'>Meeting Date:</span>
+              <input
+                required
+                type="datetime-local"
+                onChange={(e) => setDueDate(e.target.value)}
+                value={dueDate}
+              />
+            </label>
+            <label>
+              <span className='required'>Meeting Leader(s): (Min 1)</span>
+              <Select
+                required
+                onChange={(option) => setLeaders(option) }
+                options={users}
+                isMulti
+              />
+            </label>
+            <label>
+              <span className='required'>Participants: (Min 1)</span>
+              <Select
+                required
+                onChange={(option) => setAssignedUsers(option) }
+                options={users}
+                isMulti
+              />
+            </label>
+            <button onClick={handleSubmit} className="btn">Add Meeting</button>
+            <button onClick={handleStart} className="btngreen">Start Meeting Now</button>
+            {/* <label>
+              <input type="checkbox"/>
+              <Form />
+            </label> */}
+            {formError && <p className='error'>{formError}</p> }
       </form>
     </div>
   )

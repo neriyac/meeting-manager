@@ -69,7 +69,7 @@ export default function MeetingActive() {
          <div className="leaders">
           <h4>Meeting Leader(s):</h4>
           <div className="assigned-users-active">
-            {meeting.assignedUsersList.map(user => (
+            {meeting.leaderList?.map(user => (
             <div key={user.id}>
               <ReactToolTip theme="dark" position="top" title={user.displayName}>
                 <Avatar src={user.photoURL} />
