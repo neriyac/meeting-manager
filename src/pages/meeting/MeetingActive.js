@@ -5,6 +5,8 @@ import { useDocument } from '../../hooks/useDocument'
 import { useState, useRef } from 'react'
 import ReactToolTip from '../../components/Tooltip'
 import Avatar from '../../components/Avatar'
+import { Editor } from "react-draft-wysiwyg"
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
 
 
 //styles
@@ -20,6 +22,7 @@ export default function MeetingActive() {
 
   //useStates
   const [notes, setNotes] = useState([])
+  const [editorState, setEditorState] = useState(null)
   // const [position, setPosition] = useState(1)
 
   //scroll sections
@@ -53,6 +56,12 @@ export default function MeetingActive() {
     deleteDocument(meeting.id)
     history.push("/")
   }
+
+  const onEditorStateChange = (editorState) => {
+    setEditorState(editorState);
+    // return draftToHtml(convertToRaw(editorState.getCurrentContent()));
+  };
+
 
   return (
     <div>
@@ -93,12 +102,13 @@ export default function MeetingActive() {
               type="text"
               placeholder='Notes..'
             />
-            <textarea
-              placeholder='Type here..'
-              name="text"
-              cols="30"
-              rows="5">
-              </textarea>
+            <Editor
+              editorState={editorState}
+              toolbarClassName="toolbarClassName"
+              wrapperClassName="wrapperClassName"
+              editorClassName="editorClassName"
+              onEditorStateChange={onEditorStateChange}
+            />;
           </div>
           ))}
         </div>

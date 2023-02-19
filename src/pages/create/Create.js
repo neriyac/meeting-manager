@@ -5,7 +5,10 @@ import { useCollection } from '../../hooks/useCollection';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useFirestore } from '../../hooks/useFirestore';
 import { useHistory } from 'react-router-dom';
-// import { useForm } from '../../hooks/useForm'
+import { useForm } from '../../hooks/useForm';
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css"
+
 
 //styles
 import './Create.css'
@@ -23,7 +26,7 @@ export default function Create() {
   const { documents } = useCollection('users')
   const [ users, setUsers ] = useState([])
   const { user } = useAuthContext()
-  // const { userName, userEmail, message } = useForm()
+  const { sendEmail } = useForm()
 
   // form field values
   const [name, setName] = useState('')
@@ -32,8 +35,14 @@ export default function Create() {
   const [topics, setTopics] = useState([{ topic: ""}])
   const [dueDate, setDueDate] = useState('')
   const [assignedUsers, setAssignedUsers] = useState([])
+  const [assignedUsersEmail, setAssignedUsersEmail] = useState([{ mail: ""}]) 
   const [leaders, setLeaders] = useState([])
   const [formError, setFormError] = useState(null)
+  const [uname, setUname] = useState('')
+  const [uemail, setUemail] = useState('')
+  const [umeetingDetails, setUmeetingDetails] = useState('')
+  const [editorState, setEditorState] = useState(null)
+
 
   const blankTopic = (items) => {
     for(const item of items)
@@ -44,6 +53,16 @@ export default function Create() {
     } 
     return false
   }
+
+  // const blankMail = (items) => {
+  //   for(const item of items)
+  //   {
+  //     if(item.mail === "") {
+  //       return true
+  //     } 
+  //   } 
+  //   return false
+  // }
 
 
 
@@ -82,9 +101,14 @@ export default function Create() {
       return
     }
     if (assignedUsers.length < 1) {
-      setFormError('Please assign at least 1 Leader to your meeting !')
+      setFormError('Please assign at least 1 Participant to your meeting !')
       return
     }
+    // if(blankMail(assignedUsersEmail)) {
+    //   setFormError('You either not added at least 1 mail or left field blank !')
+    //   return
+    // }
+    
 
     const createdBy = {
       displayName: user.displayName,
@@ -96,9 +120,23 @@ export default function Create() {
       return{
         displayName: u.value.displayName,
         photoURL: u.value.photoURL,
-        id: u.value.id
+        id: u.value.id,
+        email: u.value.email
       }
     })
+
+    // const assignedUsersListEmail = assignedUsersEmail.map((m) => {
+    //   return{
+    //     email: m.value.email
+    //   }
+    // })
+
+    // const assignedUsersListEmail = (emails) => {
+    //   for(const mail of emails)
+    //   {
+    //    return mail.email
+    //   } 
+    // }
 
     const leaderList = leaders.map((l) => {
       return{
@@ -117,7 +155,18 @@ export default function Create() {
       comments: [],
       createdBy,
       leaderList,
-      assignedUsersList
+      assignedUsersList,
+      assignedUsersEmail
+    }
+
+    // userName, userEmail, message
+    if (document.getElementById('send-mail').checked) {
+      setUname(assignedUsersList.displayName)
+      setUemail(assignedUsersList.email)
+      setUmeetingDetails(meeting)
+      sendEmail(uname, uemail, umeetingDetails)
+    } else {
+      console.log("You didn't check it!");
     }
 
     console.log(meeting);
@@ -129,6 +178,12 @@ export default function Create() {
     }
   }
 
+  const onEditorStateChange = (editorState) => {
+    setEditorState(editorState);
+    setDetails(editorState)
+    // return draftToHtml(convertToRaw(editorState.getCurrentContent()));
+  };
+
   const handleStart = async (e) => {
     await handleSubmit(e)
     if (!response.error) {
@@ -136,7 +191,7 @@ export default function Create() {
     }
   }
 
-
+// topics add/remove
   const handleTopicChange = (i, e) => {
     let newTopics = [...topics];
     newTopics[i][e.target.name] = e.target.value;
@@ -153,6 +208,25 @@ export default function Create() {
     let newTopics = [...topics];
     newTopics.splice(i, 1);
     setTopics(newTopics)
+  }
+
+// email add/remove
+  const handleEmailChange = (i, e) => {
+    let newEmail = [...assignedUsersEmail];
+    newEmail[i][e.target.name] = e.target.value;
+    setAssignedUsersEmail(newEmail);
+  }
+
+  const addFormFieldsMail = (e) => {
+    if (e !== 0) {
+      setAssignedUsersEmail([...assignedUsersEmail, { mail: ""}])
+    }
+  }
+
+  const removeFormFieldsMail = (i) => {
+    let newEmail = [...assignedUsersEmail];
+    newEmail.splice(i, 1);
+    setAssignedUsersEmail(newEmail)
   }
 
   return (
@@ -179,15 +253,23 @@ export default function Create() {
         </label>
         <label>
           <span>Meeting Description (optional):</span>
-          <textarea
+          <Editor
+              placeholder='Example: We decided to meet every Sunday morning to...'
+              editorState={editorState}
+              toolbarClassName="toolbarClassName"
+              wrapperClassName="wrapperClassName"
+              editorClassName="editorClassName"
+              onEditorStateChange={onEditorStateChange}
+            />
+          {/* <textarea
             placeholder='Example: We decided to meet every Sunday morning to...'
             type="text"
             onChange={(e) => setDetails(e.target.value)}
             value={details}
-          />
+          /> */}
         </label>
         <label>
-        <span className='required'>Meeting Topics: (Min 2)</span>          
+        <span className='required'>Meeting Topics:</span>          
             {topics.map((element, index) => (
               <div key={index}>
                 <span className='label'>Topic {index + 1}</span>
@@ -222,7 +304,7 @@ export default function Create() {
               />
             </label>
             <label>
-              <span className='required'>Meeting Leader(s): (Min 1)</span>
+              <span className='required'>Meeting Leader(s):</span>
               <Select
                 required
                 onChange={(option) => setLeaders(option) }
@@ -231,20 +313,48 @@ export default function Create() {
               />
             </label>
             <label>
-              <span className='required'>Participants: (Min 1)</span>
+              <span className='required'>Participants:</span>
               <Select
+                placeholder='Select registered users here..'
                 required
                 onChange={(option) => setAssignedUsers(option) }
                 options={users}
                 isMulti
               />
             </label>
+            <label>
+              <span>Add by mail:</span>          
+              {assignedUsersEmail.map((element, index) => (
+                <div key={index}>
+                  <span className='label'>Mail {index + 1}</span>
+                  <div className="form-inline">
+                    <input
+                      type="email"
+                      name="mail"
+                      placeholder="Add mail here.."
+                      className="topicinput"
+                      value={element.mail || ""}
+                      onChange={(e) => handleEmailChange(index, e)}
+                      />
+                    {
+                      index ? 
+                        <button type="button"  className="btnremove" onClick={() => removeFormFieldsMail(index)}>X</button> 
+                      : null
+                    }
+                  </div>
+                </div>
+              ))}
+              <div className="button-section">
+              <button className="btngreen" type="button" onClick={() => addFormFieldsMail(assignedUsersEmail.mail)}>Add Mail</button>
+            </div>
+            </label>
             <button onClick={handleSubmit} className="btn">Add Meeting</button>
             <button onClick={handleStart} className="btngreen">Start Meeting Now</button>
-            {/* <label>
-              <input type="checkbox"/>
-              <Form />
-            </label> */}
+            <label className='form-inline'>
+              <span>Send mail invitation to all Participants?</span>
+              <input className='check' type="checkbox" id="send-mail"/>
+              {/* <Form /> */}
+            </label>
             {formError && <p className='error'>{formError}</p> }
       </form>
     </div>
